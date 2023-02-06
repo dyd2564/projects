@@ -1,0 +1,51 @@
+chap03 복사 
+	- 탐색기에서 복사 폴더이름은 chap03_copy
+	- pom.xml groupId, artifactId chap04로 변경 
+	- chap03_copy프로젝트 maven import
+	- 프로젝트이름변경 chap04
+	 
+1. @Autowired 애너테이션을 이용한 자동 주입 
+	- 타입으로 검색 
+	- ChangePasswrodService : MemberDao를 주입받음
+		- setMemeberDao메서드에 @Autowired 추가 (세터 자동주입)
+	- AppCtx 의존주입설정 
+		- pwdSvc.setMemberDao(memberDao()); // 삭제
+		
+	- MemberInfoPrinter
+		- setMembmerDao, setMemberPrinter 메서드에 @Autowired 추가
+	
+	- 필드 자동주입 (AppCtx에서 의존관계설정코드 삭제)
+		- MemberInfoPrinter
+		- MemberListPrinter
+		- MemberRegisterService
+			- 필드에 @Autowired 추가 	
+		- VersionPrinter 
+			- @Value로 기본타입 값 주입
+			
+2. 일치하는 빈이 없는 경우 
+	- AppCtx에서 MemberDao빈 주석 처리 
+	- 회원가입 테스트 후 예외 확인  
+		 - UnsatisfiedDependencyException 예외 발생 
+			 - ChangePasswordService빈을 생성하려면 반드시 MemberDao빈을 주입받아하는데
+			   MemberDao빈이 존재하지 않아 ChangePasswordSerivce빈을 생성할 수 없음
+		 - NoSuchBeanDefinitionException 
+		 	- 검색 대상의 스프링빈의 정의되지 않음 
+
+3. @Autowired 애너테이션을 붙인 주입 대상에 일치하는 빈이 두개 이상인 경우 
+	- AppCtx에서 MemberPrinter빈 2개 정의 : memberPrinter1, memberPrinter2
+	- NoUniqueBeanDefinitionException 예외 발생 
+
+4. @Qualifier 애너테이션을 이용한 의존 객체 선택 
+	- MemberInfoPrinter
+	- MemberListPrinter
+		- MemberPrinter 필드에 @Qualifier("printer") 추가
+	
+	- AppCtx 
+		- MemberInfoPrinter빈 설정 @Qualifier("printer") 추가
+		   
+5 @AutoWired required 속성
+	- 기본값 : true 의존객체가 없으면 빈을 생성하지 않고 예외 발생 
+	- false : 의존객체가 없어도 빈을 생성함  
+	- MemberPrinter 수정
+		
+		

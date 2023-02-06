@@ -1,0 +1,22 @@
+1. 실습예제 
+	- MemberDao : selectAll() : 모든 회원정보조회
+	- MemberPrinter : print() : 회원정보출력 
+	- MemberListPrinter : printAll()
+		- MemberDao 생성자 주입
+		- MemberPrinter 생성자 주입	
+	
+	- 애너테이션 방식
+	- config.AppCtx : 스프링빈 설 정
+		- MemberPrinter
+		- MemberListPrinter : MemberPrinter와 MemberDao 생성자주입 
+	- main.MainForSpring
+		- processListCommand()
+	
+	- XML 방식
+	- src/main/resources/appCtx.xml : 스프링빈 설정
+		- MemberPrinter
+		- MemberListPrinter : MemberPrinter와 MemberDao 생성자주입 
+	- main.MainForSpring
+		- GenericXmlApplicationContext로 교체 
+
+	

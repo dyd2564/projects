@@ -1,0 +1,60 @@
+1. 수정자 주입 실습예제 
+	- MemberInfoPrinter
+		- MemberDao와 MemberPrinter 수정자 주입
+		- printMemberInfo() : 회원상세정보
+		
+	- 애너테이션 방식 
+	- AppCtx : 스프링 빈설정
+	- main.MainForSpring 
+		- AnnotationConfigApplicationContext 객체로 교체 
+		- processInfoCommand()
+		- printHelp() : info 사용방법
+		
+	- XMl 방식
+	- src/main/resources/appCtx.xml : 스프링빈설정
+		- GenericXmlApplicationContext 객체로 교체  
+	  
+2. 기본데이터 타입 값 설정 실습예제 
+	- VersionPrinter 
+		- int 타입(기본타입) : majorVersion과 minorVersion 수정자 주입
+		
+	- 애노테이션 방식 
+	- AppCtx : 스프링 빈설정
+	- main.MainForSpring
+		- AnnotationConfigApplicationContext 객체로 교체 
+		- processVersionCommand()
+		- printHelp()
+	
+	- XML 방식
+		- appCtx.xml : 스프링빈 설정
+		- <property name="majorVersion" value="5"/>
+		- 속성 value 값은 문자열 타입이다.
+		- 수정자 주입시 자동타입변환 발생 : PropertyEditor와 ConversionService에 의함  	
+	
+3. 두 개이상의 설정 파일 사용	
+	애너테이션 방식 
+	- config.test01.AppConfig1
+		- MemberDao 빈
+		- MemberPrinter 빈
+	- config.test01.AppConfig2
+		- 나머지 빈 
+	- main.MainForSpring 
+		- 두 개의 설정파일을 ACAC객체에 전달
+		
+	XML 방실 
+	- src/main/resources/test01
+	
+4. @Import애너테이션, <import>태그 사용 
+	- @Import애너테이션
+		- config.test02.AppConfig : AppConfig2설정을 불러옴 	
+		- config.test02.AppConfig2
+		- main.MainForSpring
+			- ctx = new AnnotationConfigApplicationContext(AppConfig.class)
+	- <import>태그
+		- src/main/resources/test02/conf.xml : conf2.xml설정을 불러옴 
+		- src/main/resources/test02/conf2.xml
+		- main.MainForSpring
+			- ctx = new GenericXmlApplicationContext("classpath:test02/conf.xml")
+		
+	
+	

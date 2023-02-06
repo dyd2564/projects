@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.jafa.repository.BoardRepository">
+	
+	<resultMap type="category" id="cateMap">
+		<result property="cid" column="cid"/>
+		<result property="cname" column="cname"/>
+	</resultMap>
+
+	<resultMap type="boardVO" id="boardMap">
+		<result property="bno" column="bno"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="writer" column="writer"/>
+		<result property="writeDate" column="writeDate"/>
+		<collection property="category" resultMap="cateMap"/>
+	</resultMap>
+	
+	<select id="list" resultMap="boardMap">
+		select 
+			b.bno, b.title, b.content, b.writer, b.writedate, 
+			c.cname, c.cid 
+		from board_my4 b
+		inner join category_my4 c 
+		on c.cid = b.cid
+		<if test="cid!=null">
+			where c.cid = #{cid}
+		</if>
+	</select>
+	
+	<insert id="write">
+		insert into board_my4(bno,cid,title,content,writer)
+		values(bno_my4_seq.nextval,#{category.cid},#{title},#{content},#{writer})
+	</insert>
+	
+	<!-- 카테고리 목록 -->
+	<select id="getCateList" resultMap="cateMap">
+		select * from category_my4
+	</select>
+	
+	<!-- 카테고리 추가 -->
+	<insert id="saveCate">
+		insert into category_my4(cid,cname)
+		values(#{cid},#{cname})
+	</insert>
+	
+	<!-- 카테고리 삭제 -->
+	<delete id="delCate">
+		delete from category_my4 where cid=#{cid}
+	</delete>
+	
+	
+	
+  
+</mapper>

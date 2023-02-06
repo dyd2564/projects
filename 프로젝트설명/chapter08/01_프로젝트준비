@@ -1,0 +1,68 @@
+
+1. pom.xml 의존 라이브러리 추가  
+	- spring-webmvc
+	- spring-jdbc
+	- spring-test
+	- tomcat-jdbc
+	- ojdbc6
+	- lombok
+	- jstl
+
+2. MVC설정 
+	패키지 : com.jafa.config
+	- RootConfig : 스프링빈(Spring Bean) 설정
+		@Configuration
+		@ComponentScan
+		
+	- ServletConfig : 디스패처서블릿(DispatcherServlet) 설정
+		@Configuration
+		@EnableWebMvc
+		@ComponentScan
+		WebMvcConfigurer 구현
+			- configureViewResolver() : 뷰 설정  
+			- addResourceHandler() : 정적자원(이미지, JS, CSS) 풀더 설정 
+	
+	- WebConfig : 배포설명자(Deployment Descriptor)
+			- AbstractAnnotationConfigDispatcherServletInitializer 상속 
+			- getRootConfigClasses() : RootConfig설정 반환 
+			- getServletConfigClasses() : SercletConfig설정 반환
+			- getServletMappings() : 디스패처서블릿 매핑
+			- getServletFilters() : 한글 필터
+			
+3. 컨트롤러, 뷰페이지, 정적자원
+	- com.jafa.controller.HomeController
+	- src/main/webapp/resources/css/style.css
+	- src/main/webapp/resources/js/main.js
+
+4. 테스트 영역
+	- src/test/java
+	- src/test/resources
+
+5. 커넥션풀 설정 
+	- RootConfig
+	- DataSource 객체 스프링빈 등록 
+		- driver : oracle.jdbc.driver.OracleDriver 
+		- url : jdbc:oracle:thin:@localhost:1521:XE
+
+
+## XML설정
+
+1. root-context.xml (Spring Bean Configuration File)
+	- src/main/resources/config
+
+2. servlet-context.xml (Spring Bean Configuration File)
+	- src/main/resources/config 
+	- Namespaces - context, mvc 체크 
+	- ViewResolver 등록
+	- ResourceHandler 등록
+	- annotation-driven 등록
+
+3. web.xml 
+	- ContextLoaderListener 리스너 배치 
+	- 초기화 파라미터(context-param) : contextConfigLocation=루트설정 파일경로 전달  
+	- DispatcherServlet 등록 
+		+ 초기화 파라미터(init-Param) : contextConfigLocation=서블릿설정 파일경로 전달
+	- 디스패처서블릿 매핑 설정 
+	- 한글 필터 설정 	 
+
+
